@@ -113,13 +113,15 @@
 				text-decoration: none;
 			}
 
+            .footer { 
+                position: absolute; 
+                bottom: 5px; 
+                z-index: 10;
+            }
+
 			@media (max-width: 500px) {
 				.container {
 					padding: 2rem;
-				}
-
-				h1 {
-					font-size: 1.5rem;
 				}
 			}
 		</style>
@@ -140,12 +142,13 @@
 			<div class="result">
 				{{ if .ShortURL }}
 				<div class="shorturl">
-					Your link: <a href="{{ .ShortURL }}">{{ .ShortURL }}</a>
+                    <a href="{{ .ShortURL }}">{{ .ShortURL }}</a>
 				</div>
 				{{ end }} {{ if .Error }}
 				<div class="error">{{ .Error }}</div>
 				{{ end }}
 			</div>
 		</div>
+        <div class="footer"><a href="https://github.com/fynjirby/">By Fynjirby</a></div>
 	</body>
 </html>
