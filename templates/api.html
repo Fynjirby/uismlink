@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>UISM.link API Guide</title>
+		<meta
+			name="description"
+			content="API Guide for UISM.link — simple, fast, free link shortener for CLI and browser." />
+		<script>
+			try {
+				const saved = localStorage.getItem("uism_theme");
+				const prefersDark = window.matchMedia(
+					"(prefers-color-scheme: dark)"
+				).matches;
+				if (saved === "dark" || (!saved && prefersDark)) {
+					document.documentElement.classList.add("dark");
+					document.body && document.body.classList.add("dark");
+				}
+			} catch (e) {}
+		</script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap"
+			rel="stylesheet" />
+		<link rel="stylesheet" href="/static/style.css" />
+		<link rel="icon" href="/static/uism.png" />
+	</head>
+	<body>
+		<div class="container api-page">
+			<div class="theme-toggle">
+				<input type="checkbox" id="themeSwitch" />
+				<label for="themeSwitch" id="themeLabel">dark</label>
+			</div>
+			<a href="/"><h1>UISM.link API</h1></a>
+			<div style="margin-top: 1.2em">
+				<h2 style="margin-top: 0">How to use API of UISM.link</h2>
+				<p>
+					To call UISM.link just use the following URL:<br />
+					<code>https://uism.link/?link=YOUR_LONG_LINK</code><br />
+					Replace <code>YOUR_LONG_LINK</code> with the link you want
+					to shorten.
+				</p>
+				<h3>Example</h3>
+				<pre><code>curl "https://uism.link/?link=https://example.com/"</code></pre>
+				<p>Response will be like this:</p>
+				<pre><code>http://uism.link/dww3el</code></pre>
+			</div>
+		</div>
+		<a href="/" class="back-home-btn">← Back to Home</a>
+		<div class="footer">
+			<a href="https://github.com/fynjirby/">By Fynjirby</a>
+		</div>
+		<script src="/static/script.js"></script>
+	</body>
+</html>

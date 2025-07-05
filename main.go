@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/template/html/v2"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -19,7 +20,10 @@ type Link struct {
 	Original string
 }
 
-const charset = "abcdefghijklmnopqrstuvwxyz0123456789"
+const (
+	charset  = "abcdefghijklmnopqrstuvwxyz0123456789"
+	shortLen = 6
+)
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -41,6 +45,9 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
+
+	app.Static("/static", "./static")
+	app.Use(compress.New())
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		link := c.Query("link", c.FormValue("link"))
@@ -81,7 +88,7 @@ func main() {
 
 		var short string
 		for {
-			b := make([]byte, 6)
+			b := make([]byte, shortLen)
 			for i := range b {
 				b[i] = charset[rand.Intn(len(charset))]
 			}
@@ -110,6 +117,10 @@ func main() {
 			})
 		}
 		return c.SendString(shortURL)
+	})
+
+	app.Get("/api", func(c *fiber.Ctx) error {
+		return c.Render("api", fiber.Map{})
 	})
 
 	app.Get("/:id", func(c *fiber.Ctx) error {
