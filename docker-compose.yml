@@ -9,12 +9,14 @@ services:
     volumes:
       - uismlink-data:/var/lib/postgresql/data
 
-  backend:
+  uismlink:
     build: .
-    container_name: uismlink-backend
+    container_name: uismlink
     environment:
       DBASE_PROD: postgres://postgres:postgres@db:5432/uismlink?sslmode=disable
       PORT: 8080
+    ports:
+      - 127.0.0.1:8080:8080
     depends_on:
       - db
 
