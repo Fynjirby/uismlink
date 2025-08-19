@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16
+    container_name: uismlink-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: uismlink
+    volumes:
+      - uismlink-data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: uismlink-backend
+    environment:
+      DBASE_PROD: postgres://postgres:postgres@db:5432/uismlink?sslmode=disable
+      PORT: 8080
+    depends_on:
+      - db
+
+volumes:
+  uismlink-data: {}

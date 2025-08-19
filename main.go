@@ -132,7 +132,12 @@ func main() {
 		return c.Redirect(link.Original, fiber.StatusMovedPermanently)
 	})
 
-	log.Fatal(app.Listen(":8080"))
+	port := "8080"
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	}
+
+	log.Fatal(app.Listen(":" + port))
 }
 
 func respondError(c *fiber.Ctx, status int, msg string) error {
