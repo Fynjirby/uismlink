@@ -8,9 +8,17 @@ services:
       POSTGRES_DB: uismlink
     volumes:
       - uismlink-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d uismlink"]
+      interval: 3s
+      timeout: 3s
+      retries: 3
 
   uismlink:
-    build: .
+    build:
+      context: .
+      args:
+        REPO_URL: https://github.com/fynjirby/uismlink.git
     container_name: uismlink
     environment:
       DBASE_PROD: postgres://postgres:postgres@db:5432/uismlink?sslmode=disable
@@ -18,7 +26,8 @@ services:
     ports:
       - 127.0.0.1:8080:8080
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   uismlink-data: {}
